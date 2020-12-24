@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +15,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [ProductController::class, 'index']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth');
+
+Route::get('/products/edit/{product}', [ProductController::class, 'edit'])->middleware('auth')->name('products.edit');
+Route::put('/', [ProductController::class, 'update'])->middleware('auth')->name('products.update');
+
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/products', [ProductController::class, 'store'])->middleware('auth');
+
+Route::get('/categories/create', [CategoryController::class, 'create'])->middleware('auth');
+Route::post('/categories', [CategoryController::class, 'store'])->middleware('auth');
+
+
+
+
+Route::get('/register', [AuthController::class, 'getRegistationForm'])->middleware('guest');
+Route::post('/register', [AuthController::class, 'register'])->middleware('guest');
+
+Route::get('/login', [AuthController::class, 'getLoginForm'])->middleware('guest')->name('login');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
