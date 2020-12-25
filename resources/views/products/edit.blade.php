@@ -3,8 +3,8 @@
 @section('title', 'Add product')
 
 @section('content')
-<form method="POST" action="/">
-@method('PUT')
+<form method="POST" action="{{ route('products.update', compact('product')) }}">
+
   @csrf
   <div class="mb-3">
     <label for="name" class="form-label">Name</label>
@@ -14,7 +14,7 @@
 
   <div class="mb-3">
     <label for="description" class="form-label">Description:</label>
-    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="">{{$product->description}}</textarea>
+    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{$product->description}}</textarea>
     @include('partials.error-message', ['field' => 'description'])
   </div>
 
@@ -31,7 +31,7 @@
 
   <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="avaible" name="avaible" value="1">
-    <label class="form-check-label" for="avaible">Avaible</label>
+    <label class="form-check-label" for="avaible">Is sold</label>
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>

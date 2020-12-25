@@ -18,27 +18,21 @@ class AuthController extends Controller
  public function register(RegisterRequest $request) {
 
     $data = $request->validated();
-
     $data['password'] = bcrypt($data['password']);
     $user = User::create($data);
 
     auth()->login($user);
-    return redirect('/');
-
-   
-    // auth()->logout();
-    // auth()->check();
-
-    // return $user;
     
+    return redirect('/');
  }
+
  public function getLoginForm() {
     return view('auth.login');
  }
+
  public function login(LoginRequest $request) {
     $credentials = $request->validated();
     $isSuccessful = auth()->attempt($credentials);
-
 
         if($isSuccessful) {
             return redirect('/');
@@ -47,12 +41,11 @@ class AuthController extends Controller
         return back()->withErrors([
             'email' => 'Incorect email or password'
         ]);
-
  }
-
 
  public function logout() {
     auth()->logout();
+
     return redirect('/login');
  }
 }

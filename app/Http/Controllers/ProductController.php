@@ -73,10 +73,9 @@ class ProductController extends Controller
    */
   public function edit(Product $product)
   {
-    $data = Product::find($product->id);
     $categories = Category::all();
 
-    return view('products.edit', compact('data', 'product', 'categories'));
+    return view('products.edit', compact('product', 'categories'));
   }
 
   /**
@@ -88,15 +87,12 @@ class ProductController extends Controller
    */
   public function update(CreateProductRequest $request, Product $product)
   {
-    $categories = Category::all();
-
-    $data = Product::findOrFail($product->id);
-    $data = $request->validated();
     
-    update($data);
-    $product->categories()->attach($request->category_id);
-
-
+    $data = $request->validated();
+    $product = Product::updateOrCreate([
+      'id' => $product->id
+    ], $data);
+    
     return redirect('/');
   }
 
