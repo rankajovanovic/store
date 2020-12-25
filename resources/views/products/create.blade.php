@@ -19,7 +19,7 @@
 
   @if($categories)
     <div class="mb-3">
-      <select name="category_id" id="category_id">
+      <select multiple="multiple" name="categories[]" id="categories">
       @foreach($categories as $category)
           <option value="{{ $category->id}}">{{$category->name}}</option>
       @endforeach

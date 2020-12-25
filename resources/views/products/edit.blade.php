@@ -18,16 +18,15 @@
     @include('partials.error-message', ['field' => 'description'])
   </div>
 
-  @if($categories)
-    <div class="mb-3">
-      <select name="category_id" id="category_id">
+  
+  <div class="mb-3">
+      <select multiple="multiple" name="categories[]" id="categories">
       @foreach($categories as $category)
           <option value="{{ $category->id}}">{{$category->name}}</option>
       @endforeach
     
     </select>
     </div>
-  @endif
 
   <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="avaible" name="avaible" value="1">

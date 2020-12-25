@@ -33,6 +33,7 @@ class ProductController extends Controller
   public function create()
   {
     $categories = Category::all();
+
     return view('products.create', compact('categories'));
   }
  
@@ -45,10 +46,9 @@ class ProductController extends Controller
    */
   public function store(CreateProductRequest $request)
   {
-
     $data = $request->validated();
     $product = auth()->user()->products()->create($data);
-    $product->categories()->attach($request->category_id);
+    $product->categories()->attach($request->categories);
 
     return redirect('/');
   }
@@ -92,6 +92,7 @@ class ProductController extends Controller
     $product = Product::updateOrCreate([
       'id' => $product->id
     ], $data);
+    $product->categories()->attach($request->categories);
     
     return redirect('/');
   }
